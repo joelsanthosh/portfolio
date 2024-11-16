@@ -1,29 +1,46 @@
 [
-    {
-      "role": "Software Engineer",
-      "organisation": "Google",
-      "startDate": "Sept, 2022",
-      "endDate": "Present",
-      "experiences": ["Worked on Google Maps", "Reduced load times by 50%"],
-      "imageSrc": "history/google.png"
-    },
-    {
-      "role": "UI Designer",
-      "organisation": "Mirosoft",
-      "startDate": "Aug, 2021",
-      "endDate": "Aug, 2022",
-      "experiences": ["Worked on Windows 11", "Designed the control panel"],
-      "imageSrc": "history/microsoft.png"
-    },
-    {
-      "role": "SWE Intern",
-      "organisation": "Netflix",
-      "startDate": "Apr, 2020",
-      "endDate": "Jun, 2020",
-      "experiences": [
-        "Worked on component library",
-        "Helped create UI components"
-      ],
-      "imageSrc": "history/netflix.png"
-    }
-  ]
+  {
+    "role": "Lead Software Engineer",
+    "organisation": "Virtusa",
+    "startDate": "Feb, 2024",
+    "endDate": "Present",
+    "experiences": [
+      "Worked on component library",
+      "Helped create UI components"
+    ],
+    "imageSrc": "history/virtusa.jpeg"
+  },
+  {
+    "role": "Software Engineering Specialist",
+    "organisation": "LTIMindtree",
+    "startDate": "Dec, 2021",
+    "endDate": "Feb, 2024",
+    "experiences": [
+      "Worked on component library",
+      "Helped create UI components"
+    ],
+    "imageSrc": "history/lti.jpg"
+  },
+  {
+    "role": "Software Developer",
+    "organisation": "Agnostic solutions",
+    "startDate": "Apr, 2020",
+    "endDate": "Nov, 2021",
+    "experiences": [
+      "Worked on component library",
+      "Helped create UI components"
+    ],
+    "imageSrc": "history/agnostic.png"
+  },
+  {
+    "role": "Junior Software Engineer",
+    "organisation": "Anabatic technologies india private limited",
+    "startDate": "Dec, 2017",
+    "endDate": "Apr, 2020",
+    "experiences": [
+      "Worked on component library",
+      "Helped create UI components"
+    ],
+    "imageSrc": "history/anabatic.png"
+  }
+]
