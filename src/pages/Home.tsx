@@ -88,29 +88,71 @@ const Home: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Hero Right Media */}
+            {/* Hero Right Media - Premium Overlapping Profile Card */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-              className="lg:col-span-5 flex justify-center"
+              className="lg:col-span-5 w-full max-w-md mx-auto"
             >
-              <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[400px] md:h-[400px]">
-                {/* Floating Abstract Element */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-brand-primary to-brand-neonPurple opacity-30 blur-[20px] animate-float-slow"></div>
+              <div className="relative overflow-hidden rounded-3xl border border-zinc-200/50 bg-white/85 dark:border-zinc-800/50 dark:bg-brand-cardDark/85 backdrop-blur-sm shadow-2xl transition-all duration-300 hover:shadow-brand-primary/20 dark:hover:shadow-brand-primary/10 group">
                 
-                {/* Image Border/Aura Frame */}
-                <div className="absolute inset-4 rounded-3xl overflow-hidden border-2 border-brand-primary bg-zinc-900/10 dark:bg-zinc-800/40 p-4">
+                {/* Banner Part */}
+                <div className="h-32 sm:h-40 w-full overflow-hidden bg-zinc-950">
                   <img
-                    src={getImageurl("hero/heroImage.png")}
-                    alt="Joel Santhosh Raja Profile"
-                    className="h-full w-full object-contain rounded-2xl transform transition-transform hover:scale-105 duration-500"
+                    src={getImageurl("hero/banner.png")}
+                    alt="Joel Banner"
+                    className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).src =
-                        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80";
+                        "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80";
                     }}
                   />
                 </div>
+
+                {/* Overlapping Avatar Profile Photo */}
+                <div className="relative px-6 pb-6 text-center">
+                  <div className="flex justify-center">
+                    <div className="relative -mt-16 sm:-mt-20 h-28 w-28 sm:h-32 sm:w-32 rounded-full border-4 border-white dark:border-brand-cardDark bg-zinc-100 overflow-hidden shadow-lg transition-transform duration-500 group-hover:scale-105">
+                      <img
+                        src={getImageurl("hero/heroImage.png")}
+                        alt="Joel Profile"
+                        className="h-full w-full object-cover"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).src =
+                            "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80";
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Card Details */}
+                  <div className="mt-4 space-y-2">
+                    <h3 className="text-xl font-extrabold text-zinc-950 dark:text-white">
+                      Joel Santhosh Raja
+                    </h3>
+                    <p className="text-xs font-bold text-brand-primary uppercase tracking-widest">
+                      Lead Software Engineer
+                    </p>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400 max-w-xs mx-auto leading-relaxed">
+                      Crafting fast, modular React applications & high-performance frontend interfaces.
+                    </p>
+
+                    {/* Social Quick-Badges */}
+                    <div className="flex justify-center gap-1.5 pt-3">
+                      <span className="rounded-full bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200/50 dark:border-zinc-700/50 px-2.5 py-0.5 text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
+                        Virtusa
+                      </span>
+                      <span className="rounded-full bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200/50 dark:border-zinc-700/50 px-2.5 py-0.5 text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
+                        LTIMindtree
+                      </span>
+                      <span className="rounded-full bg-brand-primary/10 px-2.5 py-0.5 text-[10px] font-bold text-brand-primary">
+                        React.js
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </motion.div>
 
