@@ -1,10 +1,71 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: "Outfit", Arial, Helvetica, sans-serif;
+@import "tailwindcss";
+
+@theme {
+  --color-brand-light: #f4f4f5;
+  --color-brand-dark: #09090b;
+  --color-brand-cardLight: #ffffff;
+  --color-brand-cardDark: #18181b;
+  --color-brand-primary: #6366f1;
+  --color-brand-primaryHover: #4f46e5;
+  --color-brand-accent: #10b981;
+  --color-brand-accentHover: #059669;
+  --color-brand-neonPurple: #a855f7;
+  --color-brand-neonPink: #ec4899;
+
+  --font-sans: 'Outfit', 'Inter', 'system-ui', 'sans-serif';
+
+  --animate-gradient-x: gradient-x 15s ease infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-html {
-  scroll-behavior: smooth;
+@keyframes gradient-x {
+  0%, 100% { background-size: 200% 200%; background-position: left center; }
+  50% { background-size: 200% 200%; background-position: right center; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@layer base {
+  body {
+    @apply bg-brand-light text-zinc-900 transition-colors duration-300 dark:bg-brand-dark dark:text-zinc-100 font-sans antialiased;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-zinc-100 dark:bg-zinc-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-zinc-400 dark:bg-zinc-700 rounded-full hover:bg-brand-primary transition-all;
+}
+
+/* Custom selection */
+::selection {
+  @apply bg-brand-primary/30 text-brand-primary dark:text-white;
+}
+
+.animate-float-slow {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-medium {
+  animation: float 4s ease-in-out infinite;
+}
+
+.glassmorphism {
+  @apply bg-white/70 dark:bg-brand-cardDark/70 backdrop-blur-md border border-zinc-200/50 dark:border-zinc-800/50 shadow-lg;
+}
+
+.glow-hover {
+  @apply transition-all duration-300 hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] dark:hover:shadow-[0_0_30px_rgba(99,102,241,0.6)];
 }

@@ -1,44 +1,128 @@
-import { useState } from "react";
-import styles from "./Navbar.module.css";
+import React, { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
+import { Sun, Moon, Menu, X, Code2, User, Briefcase, Mail } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-import { getImageurl } from "../../Utils";
+const Navbar: React.FC = () => {
+  const { theme, toggleTheme } = useTheme();
+  const [isOpen, setIsOpen] = useState(false);
 
-export const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const navLinks = [
+    { name: "Home", path: "/", icon: Code2 },
+    { name: "About", path: "/about", icon: User },
+    { name: "Projects", path: "/projects", icon: Briefcase },
+    { name: "Contact", path: "/contact", icon: Mail },
+  ];
+
   return (
-    <nav className={styles.navbar}>
-      <a className={styles.title} href="/">
-        Portfolio
-      </a>
-      <div className={styles.menu}>
-        <img
-          className={styles.menuBtn}
-          src={
-            !menuOpen
-              ? getImageurl("nav/menuIcon.png")
-              : getImageurl("nav/closeIcon.png")
-          }
-          alt="menu-button"
-          onClick={() => setMenuOpen(!menuOpen)}
-        />
-        <ul
-          className={`${styles.menuItems} ${menuOpen && styles.menuOpen}`}
-          onClick={() => setMenuOpen(false)}
-        >
-          <li>
-            <a href="#about">About</a>
-          </li>
-          <li>
-            <a href="#experience">Experience</a>
-          </li>
-          <li>
-            <a href="#projects">Projects</a>
-          </li>
-          <li>
-            <a href="#contact">Contact</a>
-          </li>
-        </ul>
+    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glassmorphism border-b border-zinc-200/50 dark:border-zinc-800/50">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-20 items-center justify-between">
+          {/* Logo / Brand Name */}
+          <Link to="/" className="flex items-center space-x-2 group">
+            <span className="bg-gradient-to-r from-brand-primary to-brand-neonPurple bg-clip-text text-2xl font-extrabold tracking-wider text-transparent group-hover:opacity-85 transition-opacity">
+              JOEL.DEV
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            {navLinks.map((link) => {
+              const Icon = link.icon;
+              return (
+                <NavLink
+                  key={link.path}
+                  to={link.path}
+                  className={({ isActive }) =>
+                    `flex items-center space-x-1 text-sm font-medium transition-colors hover:text-brand-primary ${
+                      isActive
+                        ? "text-brand-primary border-b-2 border-brand-primary pb-1"
+                        : "text-zinc-600 dark:text-zinc-300"
+                    }`
+                  }
+                >
+                  <Icon className="h-4 w-4" />
+                  <span>{link.name}</span>
+                </NavLink>
+              );
+            })}
+
+            {/* Dark Mode Switcher */}
+            <button
+              onClick={toggleTheme}
+              className="rounded-full p-2 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <Sun className="h-5 w-5 text-amber-500" />
+              ) : (
+                <Moon className="h-5 w-5 text-indigo-600" />
+              )}
+            </button>
+          </nav>
+
+          {/* Mobile menu toggle & theme switch */}
+          <div className="flex items-center space-x-4 md:hidden">
+            <button
+              onClick={toggleTheme}
+              className="rounded-full p-2 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <Sun className="h-5 w-5 text-amber-500" />
+              ) : (
+                <Moon className="h-5 w-5 text-indigo-600" />
+              )}
+            </button>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="rounded-lg p-2 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none"
+              aria-label="Toggle mobile menu"
+            >
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+        </div>
       </div>
-    </nav>
+
+      {/* Mobile Menu Panel */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden border-t border-zinc-200/50 dark:border-zinc-800/50 glassmorphism"
+          >
+            <div className="space-y-1 px-4 py-4 sm:px-6">
+              {navLinks.map((link) => {
+                const Icon = link.icon;
+                return (
+                  <NavLink
+                    key={link.path}
+                    to={link.path}
+                    onClick={() => setIsOpen(false)}
+                    className={({ isActive }) =>
+                      `flex items-center space-x-2 rounded-lg px-3 py-3 text-base font-medium transition-all ${
+                        isActive
+                          ? "bg-brand-primary/10 text-brand-primary"
+                          : "text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                      }`
+                    }
+                  >
+                    <Icon className="h-5 w-5" />
+                    <span>{link.name}</span>
+                  </NavLink>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 };
+
+export default Navbar;
