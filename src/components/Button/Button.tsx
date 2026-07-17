@@ -1,5 +1,7 @@
 import React from "react";
 import { motion, HTMLMotionProps } from "framer-motion";
+import MagneticWrapper from "./MagneticWrapper";
+import { playClickSound, playHoverSound } from "../../services/soundService";
 
 interface ButtonProps extends HTMLMotionProps<"button"> {
   variant?: "primary" | "secondary" | "outline";
@@ -33,14 +35,24 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   return (
-    <motion.button
-      whileHover={{ y: -2 }}
-      whileTap={{ scale: 0.98 }}
-      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
-      {...props}
-    >
-      {children}
-    </motion.button>
+    <MagneticWrapper>
+      <motion.button
+        whileHover={{ y: -2 }}
+        whileTap={{ scale: 0.98 }}
+        onMouseEnter={(e) => {
+          playHoverSound();
+          if (props.onMouseEnter) props.onMouseEnter(e);
+        }}
+        onClick={(e) => {
+          playClickSound();
+          if (props.onClick) props.onClick(e);
+        }}
+        className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+        {...props}
+      >
+        {children}
+      </motion.button>
+    </MagneticWrapper>
   );
 };
 

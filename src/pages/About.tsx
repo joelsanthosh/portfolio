@@ -4,6 +4,7 @@ import { Download, BookOpen, Briefcase, Award } from "lucide-react";
 import SEO from "../components/SEO/SEO";
 import ExperienceTimeline from "../components/Timeline/ExperienceTimeline";
 import Button from "../components/Button/Button";
+import SkillRadarChart from "../components/RadarChart/SkillRadarChart";
 import historyData from "../data/history.json";
 import skillsData from "../data/skills.json";
 import { getImageurl } from "../Utils";
@@ -110,6 +111,11 @@ const About: React.FC = () => {
               </p>
             </div>
           </motion.div>
+        </section>
+
+        {/* Radar Expertise Matrix Section */}
+        <section className="space-y-8 animate-float-slow">
+          <SkillRadarChart />
         </section>
 
         {/* Skills Section */}

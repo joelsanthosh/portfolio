@@ -69,7 +69,7 @@ const App: React.FC = () => {
   return (
     <HelmetProvider>
       <ThemeProvider>
-        <Router>
+        <Router basename={import.meta.env.BASE_URL}>
           <div className="flex min-h-screen flex-col bg-brand-light dark:bg-brand-dark text-zinc-800 dark:text-zinc-100 transition-colors duration-300">
             <ScrollProgressBar />
             <Navbar onOpenTerminal={() => setIsTerminalOpen(true)} />

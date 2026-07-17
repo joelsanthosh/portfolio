@@ -69,3 +69,4 @@
 .glow-hover {
   @apply transition-all duration-300 hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] dark:hover:shadow-[0_0_30px_rgba(99,102,241,0.6)];
 }
+

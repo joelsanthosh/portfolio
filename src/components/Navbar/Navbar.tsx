@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
-import { Sun, Moon, Menu, X, Code2, User, Briefcase, Mail, Terminal } from "lucide-react";
+import { Sun, Moon, Menu, X, Code2, User, Briefcase, Mail, Terminal, Volume2, VolumeX } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import AccentCustomizer from "../AccentCustomizer/AccentCustomizer";
+import { playClickSound, playHoverSound } from "../../services/soundService";
 
 interface NavbarProps {
   onOpenTerminal: () => void;
@@ -12,6 +13,20 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal }) => {
   const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const [isMuted, setIsMuted] = useState(() => {
+    return localStorage.getItem("ui-sound-mute") === "true";
+  });
+
+  const toggleMute = () => {
+    const nextMuted = !isMuted;
+    setIsMuted(nextMuted);
+    localStorage.setItem("ui-sound-mute", String(nextMuted));
+    if (!nextMuted) {
+      setTimeout(() => {
+        playClickSound();
+      }, 50);
+    }
+  };
 
   const navLinks = [
     { name: "Home", path: "/", icon: Code2 },
@@ -20,12 +35,22 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal }) => {
     { name: "Contact", path: "/contact", icon: Mail },
   ];
 
+  const handleLinkClick = () => {
+    playClickSound();
+    setIsOpen(false);
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glassmorphism border-b border-zinc-200/50 dark:border-zinc-800/50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Logo / Brand Name */}
-          <Link to="/" className="flex items-center space-x-2 group">
+          <Link
+            to="/"
+            className="flex items-center space-x-2 group"
+            onClick={playClickSound}
+            onMouseEnter={playHoverSound}
+          >
             <span className="bg-gradient-to-r from-brand-primary to-brand-neonPurple bg-clip-text text-2xl font-extrabold tracking-wider text-transparent group-hover:opacity-85 transition-opacity">
               JOEL.DEV
             </span>
@@ -39,6 +64,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal }) => {
                 <NavLink
                   key={link.path}
                   to={link.path}
+                  onClick={playClickSound}
+                  onMouseEnter={playHoverSound}
                   className={({ isActive }) =>
                     `flex items-center space-x-1 text-sm font-medium transition-colors hover:text-brand-primary ${
                       isActive
@@ -57,7 +84,11 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal }) => {
 
             {/* Terminal Console Trigger */}
             <button
-              onClick={onOpenTerminal}
+              onClick={() => {
+                playClickSound();
+                onOpenTerminal();
+              }}
+              onMouseEnter={playHoverSound}
               className="rounded-full p-2 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none animate-pulse-slow"
               aria-label="Open developer terminal console"
               title="Open console (~)"
@@ -65,9 +96,28 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal }) => {
               <Terminal className="h-5 w-5 text-emerald-500" />
             </button>
 
+            {/* Mute Toggle */}
+            <button
+              onClick={toggleMute}
+              onMouseEnter={playHoverSound}
+              className="rounded-full p-2 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none"
+              aria-label="Toggle UI sounds"
+              title={isMuted ? "Unmute sounds" : "Mute sounds"}
+            >
+              {isMuted ? (
+                <VolumeX className="h-5 w-5 text-zinc-400" />
+              ) : (
+                <Volume2 className="h-5 w-5 text-brand-primary animate-pulse" />
+              )}
+            </button>
+
             {/* Dark Mode Switcher */}
             <button
-              onClick={toggleTheme}
+              onClick={() => {
+                playClickSound();
+                toggleTheme();
+              }}
+              onMouseEnter={playHoverSound}
               className="rounded-full p-2 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none"
               aria-label="Toggle theme"
             >
@@ -79,20 +129,38 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal }) => {
             </button>
           </nav>
 
-          {/* Mobile menu toggle & theme switch */}
-          <div className="flex items-center space-x-4 md:hidden">
+          {/* Mobile menu toggle & theme/sound switches */}
+          <div className="flex items-center space-x-3 md:hidden">
             {/* Terminal Console Trigger */}
             <button
-              onClick={onOpenTerminal}
+              onClick={() => {
+                playClickSound();
+                onOpenTerminal();
+              }}
               className="rounded-full p-2 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none"
               aria-label="Open developer terminal console"
-              title="Open console (~)"
             >
               <Terminal className="h-5 w-5 text-emerald-500" />
             </button>
 
+            {/* Mute Toggle */}
             <button
-              onClick={toggleTheme}
+              onClick={toggleMute}
+              className="rounded-full p-2 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none"
+              aria-label="Toggle UI sounds"
+            >
+              {isMuted ? (
+                <VolumeX className="h-5 w-5 text-zinc-400" />
+              ) : (
+                <Volume2 className="h-5 w-5 text-brand-primary" />
+              )}
+            </button>
+
+            <button
+              onClick={() => {
+                playClickSound();
+                toggleTheme();
+              }}
               className="rounded-full p-2 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none"
               aria-label="Toggle theme"
             >
@@ -102,8 +170,12 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal }) => {
                 <Moon className="h-5 w-5 text-indigo-600" />
               )}
             </button>
+
             <button
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => {
+                playClickSound();
+                setIsOpen(!isOpen);
+              }}
               className="rounded-lg p-2 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none"
               aria-label="Toggle mobile menu"
             >
@@ -134,7 +206,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal }) => {
                   <NavLink
                     key={link.path}
                     to={link.path}
-                    onClick={() => setIsOpen(false)}
+                    onClick={handleLinkClick}
+                    onMouseEnter={playHoverSound}
                     className={({ isActive }) =>
                       `flex items-center space-x-2 rounded-lg px-3 py-3 text-base font-medium transition-all ${
                         isActive
