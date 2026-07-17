@@ -115,6 +115,23 @@ const Home: React.FC = () => {
             </motion.div>
 
           </div>
+
+          {/* User Wide Banner */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mt-16 sm:mt-24 rounded-3xl overflow-hidden border border-zinc-200/50 dark:border-zinc-800/50 shadow-xl glow-hover"
+          >
+            <img
+              src={getImageurl("hero/banner.png")}
+              alt="Building solutions. Creating impact."
+              className="w-full h-auto object-cover max-h-[360px]"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).style.display = "none";
+              }}
+            />
+          </motion.div>
         </div>
       </div>
     </>
