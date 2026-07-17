@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
-import { Sun, Moon, Menu, X, Code2, User, Briefcase, Mail } from "lucide-react";
+import { Sun, Moon, Menu, X, Code2, User, Briefcase, Mail, Terminal } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import AccentCustomizer from "../AccentCustomizer/AccentCustomizer";
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  onOpenTerminal: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onOpenTerminal }) => {
   const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -48,6 +53,18 @@ const Navbar: React.FC = () => {
               );
             })}
 
+            <AccentCustomizer />
+
+            {/* Terminal Console Trigger */}
+            <button
+              onClick={onOpenTerminal}
+              className="rounded-full p-2 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none animate-pulse-slow"
+              aria-label="Open developer terminal console"
+              title="Open console (~)"
+            >
+              <Terminal className="h-5 w-5 text-emerald-500" />
+            </button>
+
             {/* Dark Mode Switcher */}
             <button
               onClick={toggleTheme}
@@ -64,6 +81,16 @@ const Navbar: React.FC = () => {
 
           {/* Mobile menu toggle & theme switch */}
           <div className="flex items-center space-x-4 md:hidden">
+            {/* Terminal Console Trigger */}
+            <button
+              onClick={onOpenTerminal}
+              className="rounded-full p-2 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none"
+              aria-label="Open developer terminal console"
+              title="Open console (~)"
+            >
+              <Terminal className="h-5 w-5 text-emerald-500" />
+            </button>
+
             <button
               onClick={toggleTheme}
               className="rounded-full p-2 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus:outline-none"
@@ -97,6 +124,10 @@ const Navbar: React.FC = () => {
             className="md:hidden border-t border-zinc-200/50 dark:border-zinc-800/50 glassmorphism"
           >
             <div className="space-y-1 px-4 py-4 sm:px-6">
+              <div className="px-3 py-2 flex items-center justify-between mb-4 border-b border-zinc-100 dark:border-zinc-800 pb-4">
+                <span className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">Theme Accent</span>
+                <AccentCustomizer />
+              </div>
               {navLinks.map((link) => {
                 const Icon = link.icon;
                 return (

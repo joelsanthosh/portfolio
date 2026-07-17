@@ -1,10 +1,12 @@
-import React, { lazy, Suspense } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "./context/ThemeContext";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
+import ScrollProgressBar from "./components/ScrollProgressBar/ScrollProgressBar";
+import TerminalConsole from "./components/Terminal/TerminalConsole";
 
 // Lazy loaded page components
 const Home = lazy(() => import("./pages/Home"));
@@ -51,16 +53,31 @@ const AnimatedRoutes: React.FC = () => {
 };
 
 const App: React.FC = () => {
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "`" || e.key === "~") {
+        e.preventDefault();
+        setIsTerminalOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <HelmetProvider>
       <ThemeProvider>
         <Router>
           <div className="flex min-h-screen flex-col bg-brand-light dark:bg-brand-dark text-zinc-800 dark:text-zinc-100 transition-colors duration-300">
-            <Navbar />
+            <ScrollProgressBar />
+            <Navbar onOpenTerminal={() => setIsTerminalOpen(true)} />
             <main className="flex-grow pt-20">
               <AnimatedRoutes />
             </main>
             <Footer />
+            <TerminalConsole isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
           </div>
         </Router>
       </ThemeProvider>

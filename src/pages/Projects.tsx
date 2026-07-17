@@ -5,6 +5,7 @@ import SEO from "../components/SEO/SEO";
 import ProjectCard from "../components/ProjectCard/ProjectCard";
 import projectsData from "../data/projects.json";
 import { getImageurl } from "../Utils";
+import GitHubStats from "../components/GitHub/GitHubStats";
 
 interface Project {
   title: string;
@@ -127,6 +128,10 @@ const Projects: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        <hr className="border-zinc-200/30 dark:border-zinc-800/30 my-16" />
+
+        <GitHubStats />
 
         {/* Project Detailed Quick-View Modal */}
         <AnimatePresence>

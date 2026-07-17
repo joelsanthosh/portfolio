@@ -1,5 +1,13 @@
 [
     {
+      "title": "React Gantt Chart",
+      "imageSrc": "projects/project.png",
+      "description": "A high-performance, fully customizable Gantt chart component library for React applications. Features smooth drag-and-drop rescheduling, task dependency lines, and responsive viewport sizing.",
+      "skills": ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+      "demo": "https://github.com/joelsanthosh/react-gantt",
+      "source": "https://github.com/joelsanthosh/react-gantt"
+    },
+    {
       "title": "Project A",
       "imageSrc": "projects/project.png",
       "description": "This is a project made to learn the latest languages by building an app.",
